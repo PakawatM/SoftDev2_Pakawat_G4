@@ -1,0 +1,40 @@
+{% extends 'generalApp/components/base.html' %}
+
+{% block title %}จำนวนนักศึกษาที่ลงทะเบียนวิชาเรียน | {% endblock %}
+
+{% block content %}
+
+<div class="header-section">
+    <h1>จำนวนนักศึกษาที่ลงทะเบียนวิชาเรียน</h1>
+</div>
+
+<div class="content-section">
+    <div class="content-container">
+        <form method="get">
+            <input type="search" name='search-subject' placeholder="Search">
+            <button type="submit">Search</button>
+            </form>
+    
+        <br>
+        {% for subject in subject %}
+        {% if subject.subject_ID in subject_list %}
+            <div class="cardd">
+                <div class="container-about">
+
+                <a class="button-link" >{{ subject.subject_ID}} {{ subject.name }}</a>
+                
+                {% for subject_ID, value in subject_list.items  %}
+                        {% if subject.subject_ID  == subject_ID %}
+                            <h6>{{ value}} คน</h6> 
+                        {% endif %}
+                    {% endfor %}  
+
+                </div>
+            </div>
+
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

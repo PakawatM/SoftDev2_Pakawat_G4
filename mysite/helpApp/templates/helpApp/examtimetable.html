@@ -1,0 +1,51 @@
+{% extends 'generalApp/components/base.html' %}
+
+{% block title %}ตารางสอบ | {% endblock %}
+
+{% block content %}
+
+<div class="header-section">
+    <h1>Exam Timetable</h1>
+</div>
+
+{% if user.is_authenticated %}
+    <section class="content-section">
+        <div class="content-container">
+            <h2 class="content-title text-center">Mid-term</h2>
+            {% regroup course_m by section.subject_ID as courses_by_mid %}
+            {% for course in courses_by_mid %}
+            <div class="card-about">
+                <div class="container-about">
+                    <br>
+                    <h4>{{ course.grouper }} </h4>
+                    <p>{{ course.grouper.midterm }}</p>
+                </div>
+            </div>
+            <br>     
+            {% endfor%}
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container">
+            <h2 class="content-title text-center">Final</h2>
+            {% regroup course_f by section.subject_ID as courses_by_fin %}
+            {% for course in courses_by_fin %}
+            <div class="card-about">
+                <div class="container-about">
+                    <br>
+                    <h4>{{ course.grouper }} </h4>
+                    <p>{{ course.grouper.final }}</p>
+                </div>
+            </div>
+            <br>         
+            {% endfor%}      
+        </div>
+    </section>
+{% else %}
+
+
+
+{% endif %}
+
+{% endblock %}

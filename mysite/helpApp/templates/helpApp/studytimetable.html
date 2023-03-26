@@ -1,0 +1,192 @@
+{% extends 'generalApp/components/base.html' %}
+
+
+{% block title %}ตารางเรียน | {% endblock %}
+
+{% block content %}
+
+<div class="header-section">
+    <h1>Study Timetable</h1>
+</div>
+
+<div class="content-section">
+    <div class="content-container">
+        
+        <table>
+            <tr>
+                <td class="text-table">Day/Period</td>
+                <td class="text-table">8:00</td>
+                <td class="text-table">9:00</td>
+                <td class="text-table">10:00</td>
+                <td class="text-table">11:00</td>
+                <td class="text-table">12:00</td>
+                <td class="text-table">13:00</td>
+                <td class="text-table">14:00</td>
+                <td class="text-table">15:00</td>
+                <td class="text-table">16:00</td>
+                <td class="text-table">17:00</td>
+                <td class="text-table">18:00</td>
+                <td class="text-table">19:00</td>
+                <td class="text-table">20:00</td>
+            </tr>
+
+            {% if user.is_authenticated %}
+            <tr>
+                <td class="text-table">Monday</td>
+                {% for time in time %}
+                    {% for course in course %}
+                        {% if course.section.day == 'M' and course.section.start_time == time %}
+                            <td style="font-size: 12px; background-color: beige;" colspan="{{ course.section.duration }}" >
+                                {{ course.section.subject_ID.name }}<br>
+                                {{ course.section.teacher }}<br>
+                            </td>
+                        {% elif time not in time_usedd.M and forloop.last %}
+                            <td></td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td class="text-table">Tuesday</td>
+                {% for time in time %}
+                    {% for course in course %}
+                        {% if course.section.day == 'T' and course.section.start_time == time %}
+                            <td style="font-size: 12px; background-color: beige;" colspan="{{ course.section.duration }}" >
+                                {{ course.section.subject_ID.name }}<br>
+                                {{ course.section.teacher }}<br>
+                            </td>
+                        {% elif time not in time_usedd.T and forloop.last %}
+                            <td></td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td class="text-table">Wednesday</td>
+                {% for time in time %}
+                    {% for course in course %}
+                        {% if course.section.day == 'W' and course.section.start_time == time %}
+                            <td style="font-size: 12px; background-color: beige;" colspan="{{ course.section.duration }}" >
+                                {{ course.section.subject_ID.name }}<br>
+                                {{ course.section.teacher }}<br>
+                            </td>
+                        {% elif time not in time_usedd.W and forloop.last %}
+                            <td></td> 
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td class="text-table">Thursday</td>
+                {% for time in time %}
+                    {% for course in course %}
+                        {% if course.section.day == 'H' and course.section.start_time == time %}
+                            <td style="font-size: 12px; background-color: beige;" colspan="{{ course.section.duration }}" >
+                                {{ course.section.subject_ID.name }}<br>
+                                {{ course.section.teacher }}<br>
+                            </td>
+                        {% elif time not in time_usedd.H and forloop.last %}
+                            <td></td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td class="text-table">Friday</td>
+                {% for time in time %}
+                    {% for course in course %}
+                        {% if course.section.day == 'F' and course.section.start_time == time %}
+                            <td style="font-size: 12px; background-color: beige;" colspan="{{ course.section.duration }}" >
+                                {{ course.section.subject_ID.name }}<br>
+                                {{ course.section.teacher }}<br>
+                            </td>
+                        {% elif time not in time_usedd.F and forloop.last %}
+                            <td></td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                <td class="text-table">Saturday</td>
+                {% for time in time %}
+                    {% for course in course %}
+                        {% if course.section.day == 'S' and course.section.start_time == time %}
+                            <td style="font-size: 12px; background-color: beige;" colspan="{{ course.section.duration }}" >
+                                {{ course.section.subject_ID.name }}<br>
+                                {{ course.section.teacher }}<br>
+                            </td>
+                        {% elif time not in time_usedd.S and forloop.last %}
+                            <td></td>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+
+        </table>
+
+        <br>
+
+        <a class="button" href="{% url 'table' %}" style="float: right;">Edit Timetable</a>
+
+        <br>
+        <br>
+        <br>
+
+        {% regroup course by section.subject_ID as courses_by_subject %}
+
+        {% for course_group in courses_by_subject %}
+        <form id="add-subject-form" action="{% url 'add_subject' %}" target="dummyframe" method="POST" >
+            <div class="cardd">
+                <div class="container-about">
+                <br>
+                <a class="button-link">{{ course_group.grouper.subject_ID }} {{ course_group.grouper.name }}</a>
+                <br>
+                <br>   
+                {% csrf_token %}
+                <input type="hidden" name="subject_id" value="{{ course_group.grouper.subject_ID }}">
+                <button type="submit" class="button-delete" name="del_btn">Delete</button>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+        
+        {% else %}
+        <tr>
+            <td class="text-table">Monday</td>
+        </tr>
+
+        <tr>
+            <td class="text-table">Tuesday</td>
+        </tr>
+
+        <tr>
+            <td class="text-table">Wednesday</td>
+        </tr>
+
+        <tr>
+            <td class="text-table">Thursday</td>
+        </tr>
+
+        <tr>
+            <td class="text-table">Friday</td>
+        </tr>
+
+        <tr>
+            <td class="text-table">Saturday</td>
+        </tr>
+        {% endif %}
+
+    </table>
+
+        
+    </div>
+
+</div>
+
+
+{% endblock %}

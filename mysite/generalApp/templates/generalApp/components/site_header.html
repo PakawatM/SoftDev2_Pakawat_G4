@@ -1,0 +1,15 @@
+<header class="site-header">
+    <a class="site-header-item" href="{% url 'home' %}">Home</a>
+    <a class="site-header-item" href="{% url 'study' %}">Study Timetable</a>
+    <a class="site-header-item" href="{% url 'exam' %}">Exam Timetable</a>
+    <a class="site-header-item" href="{% url 'students_planning_to_register' %}">Students planning to register</a>
+    <a class="site-header-right" href="{% url 'number_of_students_registered' %}">Number of students registered</a>
+    <a class="site-header-item" href="{% url 'aboutus' %}">About Us</a>
+    {% if user.is_authenticated %}
+        <a class="site-header-item" href="{% url 'login' %}">{{ user.username }}</a>
+        <a class="site-header-item" href="{% url 'logout' %}">Log Out</a>    
+    {% else %}
+        <a class="site-header-item" href="{% url 'login' %}">Log in</a>
+        <a class="site-header-item" href="{% url 'register' %}">Register</a>
+    {% endif %}
+</header>
